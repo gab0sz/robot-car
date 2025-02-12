@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <gazebo reference="front_right_wheel">
+        <mu1 value="0.2"/>
+        <mu2 value="0.2"/>
+        <material>Gazebo/Red</material>
+    </gazebo>
+
+    <gazebo reference="front_left_wheel">
+        <mu1 value="0.2"/>
+        <mu2 value="0.2"/>
+        <material>Gazebo/Red</material>
+    </gazebo>
+
+    <gazebo reference="back_right_wheel">
+        <mu1 value="0.2"/>
+        <mu2 value="0.2"/>
+        <material>Gazebo/Blue</material>
+    </gazebo>
+
+    <gazebo reference="back_left_wheel">
+        <mu1 value="0.2"/>
+        <mu2 value="0.2"/>
+        <material>Gazebo/Blue</material>
+    </gazebo>
+
+
+
+    <gazebo>
+        <plugin name="gz::sim::systems::DiffDrive" filename="gz-sim-diff-drive-system">
+
+            <num_wheel_pairs>2</num_wheel_pairs>
+
+            <!-- Wheel 1 Information -->
+            <left_joint>back_left_joint</left_joint>
+            <right_joint>back_right_joint</right_joint>
+            <wheel_separation>0.65</wheel_separation>
+            <wheel_radius>0.1</wheel_radius>
+
+            <!-- Wheel 1 Information -->
+            <left_joint>front_left_joint</left_joint>
+            <right_joint>front_right_joint</right_joint>
+            <wheel_separation>0.65</wheel_separation>
+            <wheel_radius>0.1</wheel_radius>
+
+
+            <!-- Limits -->
+            <max_linear_acceleration>10</max_linear_acceleration>
+            
+            <!-- Input -->
+            <topic>cmd_vel</topic>
+
+            <!-- Output -->
+            <frame_id>odom</frame_id>
+            <child_frame_id>dummy</child_frame_id>
+            <odom_topic>odom</odom_topic>
+            <odom_publisher_frequency>100</odom_publisher_frequency>
+
+            <tf_topic>/tf</tf_topic>
+
+            <robot_base_frame>dummy</robot_base_frame>
+
+        </plugin>
+
+        <plugin filename="gz-sim-joint-state-publisher-system"
+            name="gz::sim::systems::JointStatePublisher">
+            <topic>joint_states</topic>
+            <joint_name>back_left_joint</joint_name>
+            <joint_name>back_right_joint</joint_name>
+            <joint_name>front_left_joint</joint_name>
+            <joint_name>front_right_joint</joint_name>
+        </plugin>
+
+    </gazebo>
+
+
+
+</robot>
